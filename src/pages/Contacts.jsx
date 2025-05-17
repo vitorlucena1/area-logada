@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ContactCard from "../components/ContactCard";
+import api from "../services/api";
+import useAuth from "../hooks/useAuth";
 
 export default function Contacts({ setLoading }) {
   const [contacts, setContacts] = useState([]);
@@ -13,28 +15,32 @@ export default function Contacts({ setLoading }) {
     notes: ""
   });
   const [editing, setEditing] = useState(null);
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
-  function fetchContacts() {
+  function handleAutoLogout() {
+    logout();
+    toast.error("Sessão expirada. Faça login novamente.");
+    navigate("/login");
+  }
+
+  async function fetchContacts() {
     setLoading(true);
-    fetch(`${import.meta.env.VITE_API_URL}/contacts`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(async res => {
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Erro ao buscar contatos");
-        setContacts(Array.isArray(data) ? data : []);
-      })
-      .catch(err => toast.error(err.message))
-      .finally(() => setLoading(false));
+    try {
+      const data = await api.get('/contacts', handleAutoLogout);
+      if (!data) return;
+      setContacts(Array.isArray(data) ? data : []);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
-    if (!token) return navigate("/login");
     fetchContacts();
     // eslint-disable-next-line
-  }, [token, navigate]);
+  }, []);
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -56,31 +62,13 @@ export default function Contacts({ setLoading }) {
     setLoading(true);
     try {
       if (editing) {
-        // Edição
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/contacts/${editing}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify(form)
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Erro ao editar contato");
+        const result = await api.put(`/contacts/${editing}`, form, handleAutoLogout);
+        if (!result) return;
         toast.success("Contato editado!");
         setEditing(null);
       } else {
-        // Criação
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/contacts`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify(form)
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Erro ao criar contato");
+        const result = await api.post('/contacts', form, handleAutoLogout);
+        if (!result) return;
         toast.success("Contato criado!");
       }
       setForm({ name: "", email: "", phone: "", address: "", notes: "" });
@@ -101,11 +89,8 @@ export default function Contacts({ setLoading }) {
     if (!window.confirm("Deseja excluir este contato?")) return;
     setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/contacts/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error("Erro ao excluir contato");
+      const result = await api.delete(`/contacts/${id}`, handleAutoLogout);
+      if (!result) return;
       toast.success("Contato excluído!");
       fetchContacts();
     } catch (err) {
@@ -116,7 +101,7 @@ export default function Contacts({ setLoading }) {
   }
 
   function handleLogout() {
-    localStorage.removeItem("token");
+    logout();
     navigate("/login");
   }
 

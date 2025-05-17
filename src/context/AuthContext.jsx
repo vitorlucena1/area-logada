@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (token) {
-      setUser({}); // Aqui você pode buscar dados do usuário se necessário
+      setUser({});
     } else {
       setUser(null);
     }

@@ -11,17 +11,20 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [newItem, setNewItem] = useState('');
 
+  function handleAutoLogout() {
+    logout();
+    toast.error("Sessão expirada. Faça login novamente.");
+    navigate('/login');
+  }
+
   const fetchItems = async () => {
     setLoading(true);
     try {
-      const { data } = await api.get('/contacts');
-      setItems(data);
+      const data = await api.get('/contacts', handleAutoLogout);
+      if (!data) return;
+      setItems(Array.isArray(data) ? data : []);
     } catch (err) {
       toast.error('Erro ao buscar itens');
-      if (err.response?.status === 401) {
-        logout();
-        navigate('/login');
-      }
     } finally {
       setLoading(false);
     }
@@ -37,7 +40,8 @@ export default function Dashboard() {
     if (!newItem) return;
     setLoading(true);
     try {
-      const { data } = await api.post('/contacts', { name: newItem });
+      const data = await api.post('/contacts', { name: newItem }, handleAutoLogout);
+      if (!data) return;
       setItems([...items, data]);
       setNewItem('');
       toast.success('Item criado!');
@@ -51,7 +55,8 @@ export default function Dashboard() {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      await api.delete(`/contacts/${id}`);
+      const result = await api.delete(`/contacts/${id}`, handleAutoLogout);
+      if (!result) return;
       setItems(items.filter(item => item.id !== id));
       toast.success('Item removido!');
     } catch (err) {
