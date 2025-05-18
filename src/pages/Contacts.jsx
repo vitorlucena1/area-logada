@@ -102,6 +102,7 @@ export default function Contacts({ setLoading }) {
 
   function handleLogout() {
     logout();
+    toast.info("Logout realizado com sucesso!");
     navigate("/login");
   }
 
