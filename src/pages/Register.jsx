@@ -44,9 +44,10 @@ export default function Register({ setLoading }) {
         <input
           name="email"
           type="email"
-          placeholder="E-mail (opcional)"
+          placeholder="E-mail"
           value={form.email}
           onChange={handleChange}
+          required
         />
         <input
           name="password"
