@@ -26,17 +26,19 @@ header, .main-header {
   color: #1976d2;
   border: none;
   border-radius: 6px;
-  padding: 8px 18px;
+  padding: 6px 14px; /* diminuiu um pouco */
   font-size: 1em;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, border 0.2s;
   margin-left: 24px;
+  border: 1.5px solid #1976d2; /* adiciona borda para contraste */
 }
 
 .logout-btn:hover {
-  background: #e3f0fc;
-  color: #125ea2;
+  background: #1976d2;
+  color: #fff;
+  border: 1.5px solid #125ea2; /* mantém contraste no hover */
 }
 
 .container {
