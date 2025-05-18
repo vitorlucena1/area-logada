@@ -20,11 +20,15 @@ export async function request(endpoint, { method = 'GET', body, headers = {} } =
     config.body = JSON.stringify(body);
   }
   const response = await fetch(`${API_URL}${endpoint}`, config);
-  if (response.status === 401 && typeof onUnauthorized === 'function') {
-    onUnauthorized();
+  const data = await response.json().catch(() => ({}));
+  // Chama onUnauthorized para 401, 403 ou mensagem de token inválido
+  if (
+    (response.status === 401 || response.status === 403) ||
+    (data && typeof data.message === 'string' && data.message.toLowerCase().includes('token'))
+  ) {
+    if (typeof onUnauthorized === 'function') onUnauthorized();
     return;
   }
-  const data = await response.json().catch(() => ({}));
   if (!response.ok) {
     const error = new Error(data.message || 'Erro na requisição');
     error.response = { status: response.status, data };
