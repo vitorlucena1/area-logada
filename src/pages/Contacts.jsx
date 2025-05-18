@@ -148,7 +148,7 @@ export default function Contacts({ setLoading }) {
           />
           <button type="submit">{editing ? "Salvar edição" : "Adicionar contato"}</button>
           {editing && (
-            <button type="button" onClick={handleCancelEdit} style={{ marginLeft: 8 }}>
+            <button type="button" onClick={handleCancelEdit}>
               Cancelar
             </button>
           )}
