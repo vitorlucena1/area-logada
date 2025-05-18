@@ -1,12 +1,60 @@
-# React + Vite
+# Área Logada - Gerenciador de Contatos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto é uma aplicação web para cadastro, login e gerenciamento de contatos, desenvolvida em React com Vite. O frontend consome uma API RESTful (Node.js + Express + MongoDB, hospedada no Vercel) com autenticação JWT.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Cadastro de usuário
+- Login com autenticação JWT
+- Logout
+- CRUD de contatos (criar, listar, editar, excluir)
+- Feedback visual com React Toastify
+- Modal de confirmação para exclusão
+- Responsivo para desktop e mobile
 
-## Expanding the ESLint configuration
+## Tecnologias Utilizadas
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend:** React 19 + Vite
+- **Gerenciamento de rotas:** React Router DOM
+- **Notificações:** React Toastify
+- **Estilização:** CSS puro e variáveis CSS
+- **Backend:** API RESTful (Node.js + Express + MongoDB, hospedada no Vercel)
+- **Autenticação:** JWT (JSON Web Token)
+- **Gerenciamento de estado global:** Context API do React
+
+## Como rodar o projeto
+
+1. **Clonar o repositório**
+   ```bash
+   git clone <url-do-repositorio>
+   cd area-logada
+   ```
+
+2. **Instalar as dependências**
+   ```bash
+   npm install
+   # ou
+   yarn
+   ```
+
+3. **Rodar o projeto**
+   ```bash
+   npm run dev
+   # ou
+   yarn dev
+   ```
+
+4. **Acesse no navegador**
+   ```
+   http://localhost:5173
+   ```
+
+## Observações
+
+- Este projeto foi desenvolvido como estudo prático de React, Vite e integração com backend autenticado.
+- A API utilizada no backend foi desenvolvida separadamente e está hospedada no Vercel.
+- O gerenciamento de autenticação é feito via JWT, armazenado no localStorage.
+- O gerenciamento de estado global utiliza Context API do React.
+- Para funcionamento completo, é necessário configurar a variável de ambiente `VITE_API_URL` apontando para a URL da API.
+
+---
