@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Login({ setLoading }) {
   const [form, setForm] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.body.classList.add('login-page');
+    return () => document.body.classList.remove('login-page');
+  }, []);
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });

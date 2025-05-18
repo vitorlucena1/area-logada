@@ -19,6 +19,8 @@ header, .main-header {
   margin-bottom: 2em;
   border-radius: 0 0 18px 18px;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .logout-btn {
@@ -26,26 +28,27 @@ header, .main-header {
   color: #1976d2;
   border: none;
   border-radius: 6px;
-  padding: 6px 14px; /* diminuiu um pouco */
+  padding: 6px 14px;
   font-size: 1em;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, border 0.2s;
   margin-left: 24px;
-  border: 1.5px solid #1976d2; /* adiciona borda para contraste */
+  border: 1.5px solid #1976d2;
 }
 
 .logout-btn:hover {
   background: #1976d2;
   color: #fff;
-  border: 1.5px solid #125ea2; /* mantém contraste no hover */
+  border: 1.5px solid #125ea2;
 }
 
 .container {
   background: #fff;
   max-width: 400px;
+  width: 100%;
+  padding: 18px 2vw;
   margin: 40px auto;
-  padding: 32px 24px 24px 24px;
   border-radius: 14px;
   box-shadow: 0 4px 24px rgba(25, 118, 210, 0.10);
   display: flex;
@@ -58,6 +61,8 @@ form {
   flex-direction: column;
   gap: 14px;
   margin-bottom: 2em;
+  width: 100%;
+  align-items: stretch;
 }
 
 input {
@@ -118,6 +123,12 @@ button:disabled {
   align-items: flex-start;
   margin-bottom: 10px;
   transition: box-shadow 0.2s;
+  max-width: 400px;
+  width: 96vw;
+  min-width: unset;
+  box-sizing: border-box;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .contact-card:hover {
@@ -188,15 +199,68 @@ button[type="button"]:hover {
 }
 
 @media (max-width: 700px) {
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: #eceff1;
+    overflow-x: hidden;
+  }
+  header, .main-header {
+    margin-top: 0 !important;
+    width: 100%;
+    border-radius: 0 0 18px 18px;
+    box-sizing: border-box;
+    padding-left: 4vw;
+    padding-right: 4vw;
+  }
   .container {
-    max-width: 98vw;
+    width: 100vw;
+    max-width: 100vw;
     padding: 18px 4vw;
+    margin: 0;
+    border-radius: 14px;
+    box-sizing: border-box;
+    border: 1.5px solid #e0e0e0;
   }
   .contact-list {
     flex-direction: column;
     align-items: center;
   }
   .contact-card {
-    min-width: 90vw;
+    max-width: 400px;
+    width: 100%;
+    min-width: unset;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  body.login-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #eceff1;
+    overflow-x: hidden;
+  }
+  body.login-page .container {
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 4vw;
+    padding-right: 4vw;
+    box-sizing: border-box;
+    border-radius: 14px;
+    border: 1.5px solid #e0e0e0;
   }
 }
